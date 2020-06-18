@@ -57,7 +57,7 @@ ifeq ($(platform), genode)
    CFLAGS += -D__GENODE__
    CFLAGS += $(shell pkg-config --cflags $(PKG_CONFIG_LIBS))
 
-   LDFLAGS += -shared --version-script=$(CORE_DIR)/Libretro/link.T
+   LDFLAGS += -shared -Wl,--version-script=$(CORE_DIR)/Libretro/link.T
    LDFLAGS += $(shell pkg-config --libs $(PKG_CONFIG_LIBS))
 
    CC = /usr/local/genode-gcc/bin/genode-x86-gcc
@@ -74,7 +74,7 @@ else ifneq (,$(findstring unix,$(platform)))
    CC = gcc
    SHARED := -shared -z defs
    else
-   SHARED := -shared --version-script=$(LINK_SCRIPT)
+   SHARED := -shared -Wl,--version-script=$(LINK_SCRIPT)
    endif
    ifneq ($(findstring Haiku,$(shell uname -a)),)
       LIBS :=
@@ -491,6 +491,8 @@ ifeq ($(STATIC_LINKING),1)
 else
 	LD = link.exe
 endif
+else
+	LD = $(CC)
 endif
 
 INCFLAGS += $(INCFLAGS_PLATFORM)
