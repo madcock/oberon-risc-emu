@@ -148,6 +148,7 @@ else ifeq ($(platform), vita)
    fpic := -fPIC
    CC = arm-vita-eabi-gcc$(EXE_EXT)
    AR = arm-vita-eabi-ar$(EXE_EXT)
+   LD = arm-vita-eabi-ld$(EXE_EXT)
    CFLAGS += -DVITA
 
 # PS3
