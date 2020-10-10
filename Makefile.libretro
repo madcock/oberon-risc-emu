@@ -144,7 +144,7 @@ else ifeq ($(platform), qnx)
 
 # Vita
 else ifeq ($(platform), vita)
-   TARGET := $(TARGET_NAME)_libretro_$(platform).so
+   TARGET := $(TARGET_NAME)_libretro_$(platform).a
    fpic := -fPIC
    CC = arm-vita-eabi-gcc$(EXE_EXT)
    AR = arm-vita-eabi-ar$(EXE_EXT)
