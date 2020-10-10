@@ -1,6 +1,4 @@
 DEBUG = 0
-HAVE_EXCEPTIONS = 0
-LAGFIX=1
 HAVE_STRINGS_H = 1
 
 SPACE :=
@@ -43,10 +41,6 @@ CORE_DIR := .
 
 GIT_VERSION := " $(shell cd $(CORE_DIR); git log -1 --pretty='%cd %h' --date=short || echo unknown)"
 CFLAGS += -DGIT_VERSION=\"$(GIT_VERSION)\"
-
-ifeq ($(LAGFIX),1)
-   CFLAGS   += -DLAGFIX
-endif
 
 LINK_SCRIPT := $(CORE_DIR)/Libretro/link.T
 
@@ -426,8 +420,8 @@ CFLAGS += -D_CRT_SECURE_NO_DEPRECATE
 # Windows
 else
    TARGET := $(TARGET_NAME)_libretro.dll
-   CC =? gcc
-   SHARED := -shared -static-libgcc -s --version-script=$(LINK_SCRIPT)
+   CC     ?= gcc
+   SHARED := -shared -static-libgcc -s -Wl,--version-script=$(LINK_SCRIPT)
 endif
 
 ifeq ($(DEBUG), 1)
@@ -470,8 +464,8 @@ else
 endif
 
 CFLAGS	+= $(CODE_DEFINES) $(WARNINGS_DEFINES) $(fpic)
-CFLAGS	+= -DRIGHTSHIFT_IS_SAR -D__LIBRETRO__ -DALLOW_CPU_OVERCLOCK
-CFLAGS          += -DHAVE_STDINT_H
+CFLAGS	+= -D__LIBRETRO__
+CFLAGS   += -DHAVE_STDINT_H
 ifeq (,$(findstring msvc,$(platform)))
 ifeq ($(HAVE_STRINGS_H), 1)
 CFLAGS += -DHAVE_STRINGS_H
