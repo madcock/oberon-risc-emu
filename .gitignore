@@ -1,5 +1,7 @@
 risc
 *.img
+*.a
+*.o
 *.so
 /src/disk.o
 /src/pclink.o

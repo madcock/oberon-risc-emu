@@ -134,6 +134,7 @@ static uint32_t read_status(const struct RISC_Serial *serial) {
   FD_ZERO(&write_fds);
   FD_SET(s->fd_out, &write_fds);
   int nfds = max(s->fd_in, s->fd_out) + 1;
+#if !defined(SF2000)
   int r = select(nfds, &read_fds, &write_fds, NULL, &tv);
   int status = 0;
   if (r > 0) {
@@ -144,6 +145,9 @@ static uint32_t read_status(const struct RISC_Serial *serial) {
       status |= 2;
     }
   }
+#else
+  int status = 0;
+#endif
   return status;
 }
 
